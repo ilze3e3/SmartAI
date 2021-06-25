@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/MyScenes/MenuScene.unity
     guid: dc6313e599e726b4f9aac7f9d3e427d1
   - enabled: 1
-    path: Assets/MyScenes/PathFinding.unity
+    path: Assets/MyScenes/SmartAi.unity
     guid: 5c76e110a5fe57146b8b151583670d45
   m_configObjects: {}

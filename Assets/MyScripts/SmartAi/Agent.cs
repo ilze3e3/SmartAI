@@ -29,8 +29,10 @@ public class Agent : MonoBehaviour
     // Start is called at the start of the frame
     private void Start()
     {
+        
         agent = this.GetComponent<NavMeshAgent>();
         path = new NavMeshPath();
+        // Separate all the waypoints into their respective categories
         foreach(Waypoint w in allWaypoints)
         {
             if(w.gameObject.tag.Contains("Lever"))
@@ -52,12 +54,13 @@ public class Agent : MonoBehaviour
     void Update()
     {
         stateText.text = currState.ToString();
-
+        //If decision has not been made, run the state machine
         if(!decisionMade)
         {
             RunStateMachine();
         }
-        // If waypoint is reached choose a new waypoint
+        // If waypoint is reached choose a new waypoint,
+        // Remove waypoint from list 
         if(reachStatus)
         {
             reachStatus = false;
@@ -73,8 +76,8 @@ public class Agent : MonoBehaviour
                     currWayPoint = null;
                     break;
             }
-            
-            switch(currState)
+            // and elevate the state of the agent 
+            switch (currState)
             {
                 case State.LookForGate:
                     currState = State.LookForObjective;
@@ -104,7 +107,7 @@ public class Agent : MonoBehaviour
         switch(currState)
         {
             case State.LookForObjective:
-                if(!GoToObjective())
+                if(!GoToObjective()) // If objective not found de-escalate state to look for gate
                 {
                     currState = State.LookForGate;
                 }
@@ -115,7 +118,7 @@ public class Agent : MonoBehaviour
                 }
                 break;
             case State.LookForGate:
-                if(!GoToGate())
+                if(!GoToGate()) // If gate not found de-escalate state to look for lever
                 {
                     currState = State.LookForLever;
                 }
@@ -126,7 +129,7 @@ public class Agent : MonoBehaviour
                 }
                 break;
             case State.LookForLever:
-                if (GoToLever())
+                if (GoToLever()) // Lever is the very bottom state. So a lever is guaranteed.
                 {
                     decisionMade = true;
                     currState = State.LookForLever;
@@ -153,7 +156,7 @@ public class Agent : MonoBehaviour
 
     private bool GoToLever()
     {
-        foreach(Waypoint w in allLeverWaypoints)
+        foreach(Waypoint w in allLeverWaypoints) // Pick a lever waypoint
         {
           
             currWayPoint = w;
@@ -172,7 +175,7 @@ public class Agent : MonoBehaviour
 
     private bool GoToGate()
     {
-        foreach (Waypoint w in allGateWaypoints)
+        foreach (Waypoint w in allGateWaypoints) // Pick a gate waypoint
         {
             currWayPoint = w;
             agent.CalculatePath(currWayPoint.transform.position, path);

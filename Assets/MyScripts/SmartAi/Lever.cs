@@ -21,7 +21,7 @@ public class Lever : MonoBehaviour
         {
             if(Mathf.Abs(charInRange.transform.position.x - this.transform.position.x) < 2 
                 && Mathf.Abs(charInRange.transform.position.y - this.transform.position.y) < 2
-                && Mathf.Abs(charInRange.transform.position.z - this.transform.position.z) < 2)
+                && Mathf.Abs(charInRange.transform.position.z - this.transform.position.z) < 2) // If agent is close enough, trigger lever
             {
                 leverStat = true;
                 gate.leverPulled = leverStat;
